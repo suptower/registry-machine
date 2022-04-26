@@ -1,0 +1,34 @@
+# LDK 00 , STA 02 || Speichern unserer Schleifenvariable I in Adresse 0x02, Initialwert auf 0
+06 00
+07 02
+# LDK 00, STA 04 || Speichern unseres aktuellen Schleifenergebnisses in Adresse 0x04, Initialwert auf 0
+06 00
+07 04
+# INP 01 || Eingabe N in Adresse 0x01
+08 01
+# Bedingung pruefen, ob I <= N
+# LDA 01
+05 01
+# SUB 02, JEZ 20
+02 02
+0E 20
+# LDA 02
+05 02
+# MUL 02 , MUL 02 || i^3 rechnen
+03 02
+03 02
+# ADD 04 || zum aktuellen Schleifenergebnis addieren
+01 04
+# STA 04 || Schleifenergebnis wieder in 0x04 speichern
+07 04
+# LDK 01, ADD 02 || Schleifenvariable I inkrementieren
+06 01
+01 02
+# STA 02 || Schleifenvariable I in 0x02 speichern
+07 02
+# JMP 0B || Sprung zur Bedingungspruefung
+0B 0B
+# OUT 04, HLT 99 || Ausgabe des Inhaltes an Adresse 0x04, Terminieren des Programms
+09 04
+0A 99
+# Example code to calculate the sum of i^3 for i = 0 to i = n where n is input from user
