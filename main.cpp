@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <string>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -157,19 +158,38 @@ void compile(vector<string> program) {
     }
 }
 
-int main() {
+bool hasEnding (std::string const &fullString, std::string const &ending) {
+    if (fullString.length() >= ending.length()) {
+        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    } else {
+        return false;
+    }
+}
+int main(int argc, char** argv) {
+    string arguments {*++argv};
+    cout << arguments << endl;
     ifstream inFile;
     vector<string> inputString;
-    string temp;
-    inFile.open("ram_code.txt");
-    if (!inFile) {
-        cerr << "Unable to open file.";
+    if (argc == 2) {
+        if (hasEnding(arguments,".txt")) {
+            inFile.open(arguments);
+            string temp;
+            if (!inFile) {
+                cerr << "Unable to open file.";
+                return 1;
+            }
+            while (getline(inFile, temp)) {
+                inputString.push_back(temp);
+            }
+            inFile.close();
+        } else {
+            cerr << "You need to pass a .txt file." << endl;
+            return 2;
+        }
+    } else {
+        cerr << "You need to pass exactly 1 text file as argument." << endl;
         return 1;
     }
-    while (getline(inFile, temp)) {
-        inputString.push_back(temp);
-    }
-    inFile.close();
     compile(inputString);
     return 0;
 }
